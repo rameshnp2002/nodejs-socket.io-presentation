@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title> WebSocket Based Notification System </title>
+
+		<meta name="description" content="WebSocket Based Notification System using NodeJS">
+		<meta name="author" content="Ramesh">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>WebSocket (Socket.IO)</h1>
+					<h3>WebSocket Based Notification System using Socket.IO & NodeJS</h3>
+					<p>
+						<small>Created by <a href="https://github.com/rameshnp2002">Ramesh</a></small>
+					</p>
+				</section>
+				<section>
+					<section>
+						<h2>WebSocket</h2>
+						<p>
+							WebSocket is a protocol providing full-duplex communication channels over a single TCP connection.  <br/>
+							In plain words: There is an connection between the client and the server and both parties can start sending data at any time. 
+						</p>
+					</section>
+					<section>
+						<h2>Socket.IO</h2>
+						<p>
+							Socket.IO simplifies the WebSocket API,it provides many more features, including broadcasting to multiple sockets, storing data associated with each client, and asynchronous I/O.
+							<br/>
+							It has two parts: a client-side library that runs in the browser, and a server-side library for node.js. Both components have a nearly identical API
+						</p>
+					</section>
+
+				</section>
+
+				<!-- Example of nested vertical slides -->
+				<section>
+					<section>
+						<h2>Advantages</h2>
+							<ul><li>
+							Supports Duplex communication</li><li>
+							Faster than HTTP</li><li>
+							Increased Client and Server Communication Efficiency</li><li>
+							Replacement of HTTP, Uses TCP</li></ul>
+					</section>
+					<section>
+						<h2>Disadvantages</h2><ul><li>
+							Websockets are only supported by modern browsers (HTML5 compliant)</li><li>
+							Websocket is an exclusive and private communication channel between two points, maintaining a big number of sockets at one time could be very demanding. Make sure you can handle the load.
+							</li><li>Websocket could become a challenge over Proxy Servers as well as Load Balancers</li></ul>
+
+					</section>
+					
+				</section>
+
+				<section>
+					<h3>AJAX Vs HTTP Polling Vs HTTP Long polling  Vs  WebSockets Vs WebRTC <br/><br/> </h3> 
+					<section>
+					<p>
+						<b>AJAX</b> – Creates connection to server on each request, sends request and gets response from server. Then connection closes. 
+						It is single request > response for each AJAX call. Supported in all major browsers.
+					</p>
+					</section>
+				    <section>
+					<p>
+						<b>HTTP Long-polling </b>  is a technique used to push updates to a web client. A connection is held open between the web client and the web server so that when the server has new information it can push it to the client. That connection is then closed.
+					</p>
+					</section>
+					<section>
+					<p>
+						<b>WebSockets  </b> Create TCP connection to server, and keep it as long as needed. Server or client can easily close it. Bidirectional communication – so server and client can exchange data both directions at any time. 
+					<p>	
+					</section>
+					<section>
+					<p><b>WebRTC </b> is a free, open project that provides browsers and mobile applications with Real-Time Communications (RTC) capabilities via simple APIs. Its for Low cost, high quality audio and video communication.
+					WebRTC is used in various apps like WhatsApp, Facebook Messenger and appear.in </p>
+					</section>
+						
+				</section>
+
+				<section>
+					<h3>Difference between HTTP / WebSocket</h3>
+					<p>
+						<b>HTTP </b>- The total HTTP request and response header information overhead contains 871 bytes and that does not even include any data! <br/>
+						 1,000 clients polling every second: Network throughput is (871 x 1,000) = 871,000 bytes = 6,968,000 bits per second (6.6 Mbps)
+						<br/><br/>
+						<b>WebSocket</b> WebSocket frame that has just two bytes of overhead  <br/>
+						1,000 clients receive 1 message per second: Network throughput is (2 x 1,000) = 2,000 bytes = 16,000 bits per second (0.015 Mbps)
+					</p>
+				</section>
+
+				<section>
+					<h2>WEBSOCKETS USE CASES</h2>
+					<section>
+					<ul><li>
+						Analytics and dashboards</li><li>
+						Play-by-play sports</li><li>
+						Stock trading</li><li>
+						News tickers</li><li>
+						Chat</li><li>
+						Multiplayer gaming</li><li>
+						Social streams</li><li>
+						User collaboration</li><li>
+						Instantfeedback autocompletion</li>
+					</ul>
+					</section>
+					<section>
+						<ul><li>
+						Dashboards</li><li>
+						General Notification</li><li>
+						User Based Action Notification</li><li>
+						New Lead / Form Fill Alerts</li><li>
+						Email Open / Unsubscribe Notification </li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+						<h3>Simple NodeJS Example</h3>
+						<p style="font-size:20px">
+							First Create package.json
+						</p>
+						<pre><code>
+{
+  "name": "socket-example",
+  "version": "0.0.1",
+  "description": "my first socket.io app",
+  "dependencies": {}
+}
+						</code></pre>
+						<p style="font-size:18px">
+							Add expressdependencies lib using "npm install --save"  (express : is web framework for Node.js)
+						</p>
+						<pre><code>$ npm install --save express@4.10.2</code></pre>
+						<p style="font-size:18px">Now check package.json, new dependencies lib will be added in package.json
+						</p>
+						<pre><code>$ cat package.json</code></pre>
+					</section>
+					
+					<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+						
+						<p style="font-size:20px">
+							Create server.js for setting up basic nodejs web app
+						</p>
+						<pre><code>$ vim server1.js</code></pre>
+						<pre><code>						
+var app = require('express')();
+var http = require('http').Server(app);
+
+app.get('/', function(req, res){
+  res.send('<h1>Hello world</h1>');
+});
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
+						</code></pre>
+						<p style="font-size:18px">
+							This translates into the following:
+							<ul><li style="font-size:18px"> Express initializes app to be a function handler that you can supply to an HTTP server (as seen in line 2).
+							</li><li style="font-size:18px"> We define a route handler / that gets called when we hit our website home.
+							</li><li style="font-size:18px"> We make the http server listen on port 3000.</li></ul>
+						</p>
+						<pre><code>$ node server1.js</code></pre>
+						<p style="font-size:18px">http://localhost:3000 - Open this link in browser
+						</p>
+					</section>
+					
+					<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+						
+						<p style="font-size:20px">
+							we’re going to create a index.html file and serve it through nodejs
+						</p>
+						<pre><code>$ vim server2.js</code></pre>
+						<pre><code>						
+var app = require('express')();
+var http = require('http').Server(app);
+
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
+});
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
+						</code></pre>
+						<p style="font-size:18px">
+							Create 	index.html file				
+						</p>
+						<pre><code>$ node server2.js</code></pre>
+						<p style="font-size:18px">http://localhost:3000 - Open this link in browser
+						</p>
+					</section>
+				</section>
+				
+
+				<section>
+					<h3>Integrating Socket.IO</h3>
+					<p style="font-size:20px">
+							Socket.IO is composed of two parts:
+							<ul><li style="font-size:18px"> A server side that integrates with  Node.JS HTTP Server</li>
+							<li style="font-size:18px">A client library that loads on the browser side</li></ul>
+						</p>
+					<p style="font-size:20px">
+					</p>
+					<pre><code data-trim contenteditable>
+$ npm install --save socket.io</code></pre>
+					<p style="font-size:20px">Now check with cat package.json<br>
+Now add socket.io in nodejs server side code</p>
+<pre><code>$ vim server3.js</code></pre>
+						<pre><code>
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index3.html');
+});
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});</code></pre>
+				</section>			
+				<section style="text-align: left;">
+					<h1>THE END</h1>					
+				</section>
+			</div>
+		</div>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
